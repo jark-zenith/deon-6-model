@@ -50,12 +50,13 @@ class Attention(nn.Module):
         self.v = nn.Linear(c.hidden_size, self.kv*self.d, bias=False)
         self.o = nn.Linear(c.hidden_size, c.hidden_size, bias=False)
         self.dropout = c.dropout
+        self.rope_theta = c.rope_theta
     def forward(self, x):
         b, t, _ = x.shape
         q = self.q(x).view(b,t,self.h,self.d).transpose(1,2)
         k = self.k(x).view(b,t,self.kv,self.d).transpose(1,2)
         v = self.v(x).view(b,t,self.kv,self.d).transpose(1,2)
-        q, k = apply_rope(q, k, 10000.0)
+        q, k = apply_rope(q, k, self.rope_theta)
         repeat = self.h // self.kv
         k, v = k.repeat_interleave(repeat, 1), v.repeat_interleave(repeat, 1)
         y = F.scaled_dot_product_attention(q, k, v, dropout_p=self.dropout if self.training else 0.0, is_causal=True)
