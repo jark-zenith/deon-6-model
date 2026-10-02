@@ -1,0 +1,5 @@
+DEON is a model project from Jark AI Tech.
+DEON is designed for English, Swahili, Sheng, developer work, and structured output.
+Habari yako? DEON inaweza kusaidia kueleza code kwa njia rahisi.
+Ninaandika Python, TypeScript, SQL, HTML, na JavaScript.
+This tiny corpus exists only for local smoke tests.
