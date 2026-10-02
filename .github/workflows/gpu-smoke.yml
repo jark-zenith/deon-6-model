@@ -1,0 +1,11 @@
+name: DEON 6 GPU Smoke
+on:
+  workflow_dispatch:
+jobs:
+  gpu-smoke:
+    runs-on: [self-hosted, linux, x64, gpu]
+    steps:
+      - uses: actions/checkout@v6
+      - run: python scripts/check_gpu.py
+      - run: python -m deon6.tools.smoke_test
+      - run: python -m deon6.training.pretrain --config configs/nano-smoke.yaml
